@@ -1442,6 +1442,30 @@ spec:
                       forward) all X-Forwarded-* headers.'
                     type: boolean
                 type: object
+              forwardIf:
+                description: |-
+                  ForwardIf holds the forward if middleware configuration.
+                  This middleware conditionally forwards requests to another HTTP endpoint based on header matching.
+                properties:
+                  endpoint:
+                    description: Endpoint defines the target HTTP host to forward
+                      requests to (with the original scheme and path).
+                    type: string
+                  headerName:
+                    description: HeaderName defines the name of the header to check
+                      for forwarding condition.
+                    type: string
+                  headerValue:
+                    description: HeaderValue defines the expected value of the header
+                      for forwarding to occur.
+                    type: string
+                  timeout:
+                    description: |-
+                      Timeout defines the timeout for the HTTP request to the endpoint.
+                      Default: 12s.
+                    format: int64
+                    type: integer
+                type: object
               grpcWeb:
                 description: |-
                   GrpcWeb holds the gRPC web middleware configuration.
