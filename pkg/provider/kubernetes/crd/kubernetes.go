@@ -328,6 +328,7 @@ func (p *Provider) loadConfigurationFromCRD(ctx context.Context, client Client) 
 			ContentType:       middleware.Spec.ContentType,
 			GrpcWeb:           middleware.Spec.GrpcWeb,
 			Plugin:            plugin,
+			ForwardIf:         middleware.Spec.ForwardIf,
 		}
 	}
 

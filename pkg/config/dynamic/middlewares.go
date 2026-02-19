@@ -42,6 +42,7 @@ type Middleware struct {
 	Retry             *Retry             `json:"retry,omitempty" toml:"retry,omitempty" yaml:"retry,omitempty" export:"true"`
 	ContentType       *ContentType       `json:"contentType,omitempty" toml:"contentType,omitempty" yaml:"contentType,omitempty" label:"allowEmpty" file:"allowEmpty" kv:"allowEmpty" export:"true"`
 	GrpcWeb           *GrpcWeb           `json:"grpcWeb,omitempty" toml:"grpcWeb,omitempty" yaml:"grpcWeb,omitempty" export:"true"`
+	ForwardIf         *ForwardIf         `json:"forwardIf,omitempty" toml:"forwardIf,omitempty" yaml:"forwardIf,omitempty" export:"true"`
 
 	Plugin map[string]PluginConf `json:"plugin,omitempty" toml:"plugin,omitempty" yaml:"plugin,omitempty" export:"true"`
 
@@ -790,6 +791,27 @@ type TLSClientCertificateSubjectDNInfo struct {
 	SerialNumber bool `json:"serialNumber,omitempty" toml:"serialNumber,omitempty" yaml:"serialNumber,omitempty" export:"true"`
 	// DomainComponent defines whether to add the domainComponent information into the subject.
 	DomainComponent bool `json:"domainComponent,omitempty" toml:"domainComponent,omitempty" yaml:"domainComponent,omitempty" export:"true"`
+}
+
+// +k8s:deepcopy-gen=true
+
+// ForwardIf holds the forward if middleware configuration.
+// This middleware conditionally forwards requests to another HTTP endpoint based on header matching.
+type ForwardIf struct {
+	// Endpoint defines the target HTTP host to forward requests to (with the original scheme and path).
+	Endpoint string `json:"endpoint,omitempty" toml:"endpoint,omitempty" yaml:"endpoint,omitempty" export:"true"`
+	// HeaderName defines the name of the header to check for forwarding condition.
+	HeaderName string `json:"headerName,omitempty" toml:"headerName,omitempty" yaml:"headerName,omitempty" export:"true"`
+	// HeaderValue defines the expected value of the header for forwarding to occur.
+	HeaderValue string `json:"headerValue,omitempty" toml:"headerValue,omitempty" yaml:"headerValue,omitempty" export:"true"`
+	// Timeout defines the timeout for the HTTP request to the endpoint.
+	// Default: 12s.
+	Timeout ptypes.Duration `json:"timeout,omitempty" toml:"timeout,omitempty" yaml:"timeout,omitempty" export:"true"`
+}
+
+// SetDefaults sets the default values on ForwardIf.
+func (r *ForwardIf) SetDefaults() {
+	r.Timeout = ptypes.Duration(12 * time.Second)
 }
 
 // +k8s:deepcopy-gen=true

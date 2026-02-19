@@ -58,6 +58,7 @@ type MiddlewareSpecApplyConfiguration struct {
 	Retry             *RetryApplyConfiguration          `json:"retry,omitempty"`
 	ContentType       *dynamic.ContentType              `json:"contentType,omitempty"`
 	GrpcWeb           *dynamic.GrpcWeb                  `json:"grpcWeb,omitempty"`
+	ForwardIf         *dynamic.ForwardIf                `json:"forwardIf,omitempty"`
 	Plugin            map[string]v1.JSON                `json:"plugin,omitempty"`
 }
 
@@ -256,6 +257,14 @@ func (b *MiddlewareSpecApplyConfiguration) WithContentType(value dynamic.Content
 // If called multiple times, the GrpcWeb field is set to the value of the last call.
 func (b *MiddlewareSpecApplyConfiguration) WithGrpcWeb(value dynamic.GrpcWeb) *MiddlewareSpecApplyConfiguration {
 	b.GrpcWeb = &value
+	return b
+}
+
+// WithForwardIf sets the ForwardIf field in the declarative configuration to the given value
+// and returns the receiver, so that objects can be built by chaining "With" function invocations.
+// If called multiple times, the ForwardIf field is set to the value of the last call.
+func (b *MiddlewareSpecApplyConfiguration) WithForwardIf(value dynamic.ForwardIf) *MiddlewareSpecApplyConfiguration {
+	b.ForwardIf = &value
 	return b
 }
 
