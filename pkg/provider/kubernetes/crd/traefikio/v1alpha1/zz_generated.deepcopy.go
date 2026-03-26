@@ -923,6 +923,11 @@ func (in *MiddlewareSpec) DeepCopyInto(out *MiddlewareSpec) {
 		*out = new(dynamic.GrpcWeb)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.ForwardIf != nil {
+		in, out := &in.ForwardIf, &out.ForwardIf
+		*out = new(dynamic.ForwardIf)
+		**out = **in
+	}
 	if in.Plugin != nil {
 		in, out := &in.Plugin, &out.Plugin
 		*out = make(map[string]v1.JSON, len(*in))
